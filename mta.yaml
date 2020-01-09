@@ -1,0 +1,31 @@
+ID: CP100_5_0801_Ex7_07
+_schema-version: "2.1"
+version: 0.0.1
+modules:
+  - name: CP100_5_0801_Ex7_07-db
+    type: hdb
+    path: db
+    parameters:
+      memory: 256M
+      disk-quota: 256M
+    requires:
+      - name: CP100_5_0801_Ex7_07-db-hdi-container
+  - name: CP100_5_0801_Ex7_07-srv
+    type: java
+    path: srv
+    parameters:
+      memory: 1024M
+    provides:
+      - name: srv_api
+        properties:
+          url: ${default-url}
+    requires:
+      - name: CP100_5_0801_Ex7_07-db-hdi-container
+        properties:
+          JBP_CONFIG_RESOURCE_CONFIGURATION: '[tomcat/webapps/ROOT/META-INF/context.xml:
+            {"service_name_for_DefaultDB" : "~{hdi-container-name}"}]'
+resources:
+  - name: CP100_5_0801_Ex7_07-db-hdi-container
+    type: com.sap.xs.hdi-container
+    properties:
+      hdi-container-name: ${service-name}
