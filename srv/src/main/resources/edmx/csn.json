@@ -28,6 +28,7 @@
           "type": "cds.Integer"
         },
         "name": {
+          "@Common.Label": "Author",
           "@cds.persistence.name": "NAME",
           "type": "cds.String"
         },
@@ -61,6 +62,75 @@
       "@Capabilities.DeleteRestrictions.Deletable": false,
       "@Capabilities.InsertRestrictions.Insertable": false,
       "@Capabilities.UpdateRestrictions.Updatable": false,
+      "@UI.Facets": [
+        {
+          "$Type": "UI.CollectionFacet",
+          "Facets": [
+            {
+              "$Type": "UI.ReferenceFacet",
+              "Label": "General Info",
+              "Target": "@UI.Identification"
+            }
+          ],
+          "Label": "Book Details"
+        },
+        {
+          "$Type": "UI.ReferenceFacet",
+          "Label": "Orders",
+          "Target": "orders/@UI.LineItem"
+        }
+      ],
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "title"
+      },
+      "@UI.HeaderInfo.TypeName": "Book",
+      "@UI.HeaderInfo.TypeNamePlural": "Books",
+      "@UI.Identification": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "ID"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "title"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "author/name"
+          }
+        }
+      ],
+      "@UI.LineItem": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "ID"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "title"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "stock"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "author/name"
+          }
+        }
+      ],
       "@cds.persistence.name": "CATALOGSERVICE_BOOKS",
       "@readonly": true,
       "query": {
@@ -74,17 +144,38 @@
       },
       "elements": {
         "ID": {
+          "@Common.Label": "Id",
           "@cds.persistence.name": "ID",
           "key": true,
           "type": "cds.Integer"
         },
         "title": {
+          "@Common.Label": "Title",
           "@cds.persistence.name": "TITLE",
           "localized": true,
           "type": "cds.String"
         },
         "author": {
+          "@Common.Label": "Author",
+          "@Common.Text": {
+            "=": "author/name"
+          },
+          "@Common.ValueList.CollectionPath": "Authors",
+          "@Common.ValueList.Label": "Authors",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterOut",
+              "LocalDataProperty": "author_ID",
+              "ValueListProperty": "ID"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "name"
+            }
+          ],
+          "@Common.ValueList.SearchSupported": "true",
           "@cds.persistence.name": "AUTHOR",
+          "@sap.value.list": "fixed-values",
           "type": "cds.Association",
           "target": "CatalogService.Authors",
           "keys": [
@@ -97,6 +188,7 @@
           ]
         },
         "stock": {
+          "@Common.Label": "Stock",
           "@cds.persistence.name": "STOCK",
           "type": "cds.Integer"
         },
@@ -156,8 +248,27 @@
           ]
         },
         "author_ID": {
+          "@Common.Label": "Author",
+          "@Common.Text": {
+            "=": "author/name"
+          },
+          "@Common.ValueList.CollectionPath": "Authors",
+          "@Common.ValueList.Label": "Authors",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterOut",
+              "LocalDataProperty": "author_ID",
+              "ValueListProperty": "ID"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "name"
+            }
+          ],
+          "@Common.ValueList.SearchSupported": "true",
           "@cds.persistence.name": "AUTHOR_ID",
           "@odata.foreignKey4": "author",
+          "@sap.value.list": "fixed-values",
           "type": "cds.Integer"
         }
       },
@@ -349,6 +460,88 @@
       "@Capabilities.DeleteRestrictions.Deletable": false,
       "@Capabilities.ReadRestrictions.Readable": false,
       "@Capabilities.UpdateRestrictions.Updatable": false,
+      "@UI.Facets": [
+        {
+          "$Type": "UI.CollectionFacet",
+          "Facets": [
+            {
+              "$Type": "UI.ReferenceFacet",
+              "Label": "Assignment",
+              "Target": "@UI.Identification"
+            }
+          ],
+          "Label": "Orders"
+        }
+      ],
+      "@UI.HeaderInfo.Title.Value": {
+        "=": "ID"
+      },
+      "@UI.HeaderInfo.TypeName": "Order",
+      "@UI.HeaderInfo.TypeNamePlural": "Orders",
+      "@UI.Identification": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "ID"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "book"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "buyer"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "date"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "amount"
+          }
+        }
+      ],
+      "@UI.LineItem": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "ID"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "book"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "buyer"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "date"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "amount"
+          }
+        }
+      ],
       "@cds.persistence.name": "CATALOGSERVICE_ORDERS",
       "@insertonly": true,
       "query": {
@@ -376,6 +569,9 @@
           "type": "cds.DateTime"
         },
         "createdAt": {
+          "@Common.FieldControl": {
+            "#": "ReadOnly"
+          },
           "@Common.Label": "{i18n>CreatedAt}",
           "@Core.Computed": true,
           "@Core.Immutable": true,
@@ -390,6 +586,9 @@
           "type": "cds.DateTime"
         },
         "createdBy": {
+          "@Common.FieldControl": {
+            "#": "ReadOnly"
+          },
           "@Common.Label": "{i18n>CreatedBy}",
           "@Core.Computed": true,
           "@Core.Description": "{i18n>UserID.Description}",
@@ -422,11 +621,19 @@
           "length": 255
         },
         "ID": {
+          "@Common.FieldControl": {
+            "#": "ReadOnly"
+          },
+          "@Common.Label": "Order",
           "@cds.persistence.name": "ID",
           "key": true,
           "type": "cds.UUID"
         },
         "book": {
+          "@Common.FieldControl": {
+            "#": "ReadOnly"
+          },
+          "@Common.Label": "Book",
           "@cds.persistence.name": "BOOK",
           "type": "cds.Association",
           "target": "CatalogService.Books",
@@ -458,10 +665,18 @@
           ]
         },
         "amount": {
+          "@Common.FieldControl": {
+            "#": "ReadOnly"
+          },
+          "@Common.Label": "Amount",
           "@cds.persistence.name": "AMOUNT",
           "type": "cds.Integer"
         },
         "book_ID": {
+          "@Common.FieldControl": {
+            "#": "ReadOnly"
+          },
+          "@Common.Label": "Book",
           "@cds.persistence.name": "BOOK_ID",
           "@odata.foreignKey4": "book",
           "type": "cds.Integer"

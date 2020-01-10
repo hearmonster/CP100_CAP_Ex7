@@ -1,0 +1,8 @@
+ID: CP100_5_0801_Ex7_07
+_schema-version: "2.1"
+version: 0.0.1
+modules:
+  - name: di-local-npm-registry
+    properties:
+      UPSTREAM_LINK: "http://registry.npmjs.org"
+      SAPUPSTREAM_LINK: "https://npm.sap.com"

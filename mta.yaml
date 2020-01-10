@@ -24,8 +24,34 @@ modules:
         properties:
           JBP_CONFIG_RESOURCE_CONFIGURATION: '[tomcat/webapps/ROOT/META-INF/context.xml:
             {"service_name_for_DefaultDB" : "~{hdi-container-name}"}]'
+  - name: ui5
+    type: html5
+    path: ui5
+    parameters:
+       disk-quota: 256M
+       memory: 256M
+    build-parameters:
+       builder: grunt
+    requires:
+     - name: srv_api
+       group: destinations
+       properties:
+          forwardAuthToken: true
+          strictSSL: false
+          name: srv_api
+          url: ~{url}
+     - name: uaa_CP100_5_0801_Ex7_07
+
 resources:
   - name: CP100_5_0801_Ex7_07-db-hdi-container
     type: com.sap.xs.hdi-container
     properties:
       hdi-container-name: ${service-name}
+
+  - name: uaa_CP100_5_0801_Ex7_07
+    parameters:
+       path: ./xs-security.json
+       service-plan: application
+       service: xsuaa
+    type: org.cloudfoundry.managed-service
+
